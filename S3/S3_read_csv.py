@@ -3,7 +3,7 @@ import codecs
 import csv
 import pandas as pd
 
-#boto3.setup_default_session(profile_name='cp-aiops-dev')
+#boto3.setup_default_session(profile_name='PERMISSIONS-PROFILE')
 
 bucket                 = 'BUCKET-NAME-HERE'
 prefix                 = 'PREFIX/GOES/HERE'
