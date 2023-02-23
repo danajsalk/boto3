@@ -7,17 +7,24 @@ def create_model(model_name, model_data_url, model_image, source_directory, regi
                         'Mode': 'MultiModel' ,
                         'MultiModelConfig': {
                                 'ModelCacheSetting': 'Disabled' #default enabled
-                        }
+                        },
+                        'Environment': {
+                              "SAGEMAKER_CONTAINER_LOG_LEVEL" : "20",
+                              "SAGEMAKER_PROGRAM"             : "program_file.py",
+                              "SAGEMAKER_REGION"              : "us-west-2",
+                              "SAGEMAKER_SUBMIT_DIRECTORY"    : source_directory,
+                            }
                    }
-
+        
         response = sagemaker_client.create_model(
                       ModelName        = model_name,
                       ExecutionRoleArn = role,
                       Containers       = [container]
                     )
         print("CREATED MODEL: ", model_name)
-    except:
-        print("MODEL ALREADY CREATED: ", model_name)
+    except Exception as e:
+        print("\nERROR: ", model_name, e)
+        
     
 def create_endpoint_config(config_name, model_name, region_name):
     sagemaker_client = boto3.client('sagemaker', region_name=region_name)
