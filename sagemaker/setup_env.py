@@ -50,6 +50,30 @@ def create_endpoint(endpoint_name, config_name, region_name):
     except:
         print("ENDPOINT ALREADY CREATED: ", endpoint_name)
         
+        
+def delete_infra(model_name, config_name, endpoint_name):
+    sagemaker_client = boto3.client('sagemaker', region_name=region_name)
+    
+    try:
+        sagemaker_client.delete_model(ModelName=model_name)
+        print("DELETED MODEL: ", model_name)
+    except Exception as e:
+        print("ERROR DELETING MODEL: ", e)
+        
+    try:
+        sagemaker_client.delete_endpoint_config(EndpointConfigName=config_name)
+        print("DELETED ENDPOINT CONFIG: ", config_name)
+        
+    except Exception as e:
+        print("ERROR DELETING ENDPOINT CONFIG: ", e)
+        
+    try:
+        sagemaker_client.delete_endpoint(EndpointName=endpoint_name)
+        print("DELETED ENDPOINT: ", endpoint_name)
+    except Exception as e:
+        print("ERROR DELETING ENDPOINT: ", e)
+        
+        
 bucket = 'BUCKET_NAME'
 model_prefix = 'prefix/models/'
 direct_prefix = 'prefix/source/sourcedir.tar.gz'
